@@ -18,7 +18,6 @@ def bin_strings(length: int) -> Iterator[list[int]]:
                 break
             string[i] = 0
 
-
 def main():
     '''Driver Code'''
     _ = argv.pop(0)
