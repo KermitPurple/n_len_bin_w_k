@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from sys import argv
 from typing import Iterator
 
 def bin_strings(length: int) -> Iterator[list[int]]:
@@ -17,15 +18,28 @@ def bin_strings(length: int) -> Iterator[list[int]]:
                 break
             string[i] = 0
 
-def print_bin_string(string: list[int]):
-    '''print a binary string'''
-    print(''.join(map(str, string)))
 
 def main():
     '''Driver Code'''
-    for string in bin_strings(9):
-        print_bin_string(string)
+    _ = argv.pop(0)
+    match len(argv):
+        case 0:
+            n = int(input('Enter n> '))
+            k = int(input('Enter k> '))
+        case 2:
+            n, k = map(int, argv)
+        case count:
+            print(f'Invalid number of arguments: {count}')
+            return 1
     strings = set()
+    for bin_string in bin_strings(n):
+        if bin_string.count(1) == k:
+            rev_bin_string = reversed(bin_string)
+            string = ''.join(map(str, bin_string))
+            rev_string = ''.join(map(str, rev_bin_string))
+            if rev_string not in strings:
+                print(string)
+                strings.add(string)
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())
