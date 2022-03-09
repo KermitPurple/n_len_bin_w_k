@@ -25,7 +25,7 @@ def m_spaced(bin_string: list[int], m: int) -> bool:
     :m: number of correctly spaced 1s
     :returns: true if it is spaced correctly
     '''
-    distances = {i: 1 for i in range(len(bin_string))}
+    distances = {i: 0 for i in range(len(bin_string))}
     for i, a in enumerate(bin_string):
         if a == 0:
             continue
@@ -35,8 +35,8 @@ def m_spaced(bin_string: list[int], m: int) -> bool:
             distances[j - i] += 1
     for count in distances.values():
         if count >= m:
-            return True
-    return False
+            return False
+    return True
 
 def main():
     '''Driver Code'''
