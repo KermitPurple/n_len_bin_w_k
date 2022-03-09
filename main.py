@@ -25,17 +25,20 @@ def m_spaced(bin_string: list[int], m: int) -> bool:
     :m: number of correctly spaced 1s
     :returns: true if it is spaced correctly
     '''
-    distances = {i: 0 for i in range(len(bin_string))}
-    for i, a in enumerate(bin_string):
-        if a == 0:
-            continue
-        for j, b in enumerate(bin_string[i + 1:], i + 1):
-            if b == 0:
-                continue
-            distances[j - i] += 1
-    for count in distances.values():
-        if count >= m:
-            return True
+    n = len(bin_string)
+    if m < 2:
+        return True
+    for step_size in range(1, n // m + 1):
+        for offset in range(n - m - (m - 1) * (step_size - 1)):
+            spaced = True
+            for step in range(m):
+                index = step * step_size + offset
+                # print(f'{step_size=}, {offset=}, {step=}, {index=}')
+                if bin_string[index] != 1:
+                    spaced = False
+                    break
+            if spaced:
+                return True
     return False
 
 def main():
