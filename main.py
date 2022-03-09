@@ -28,7 +28,7 @@ def m_spaced(bin_string: list[int], m: int) -> bool:
     n = len(bin_string)
     if m < 2:
         return True
-    for step_size in range(1, n // m + 1):
+    for step_size in range(1, n // m + 2):
         for offset in range(n - m - (m - 1) * (step_size - 1) + 1):
             spaced = True
             for step in range(m):
