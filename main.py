@@ -35,8 +35,8 @@ def m_spaced(bin_string: list[int], m: int) -> bool:
             distances[j - i] += 1
     for count in distances.values():
         if count >= m:
-            return False
-    return True
+            return True
+    return False
 
 def main():
     '''Driver Code'''
@@ -53,7 +53,7 @@ def main():
             return 1
     strings = set()
     for bin_string in bin_strings(n):
-        if bin_string.count(1) == k and m_spaced(bin_string, m):
+        if bin_string.count(1) == k and not m_spaced(bin_string, m):
             rev_bin_string = reversed(bin_string)
             string = ''.join(map(str, bin_string))
             rev_string = ''.join(map(str, rev_bin_string))
