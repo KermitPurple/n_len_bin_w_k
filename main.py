@@ -18,6 +18,26 @@ def bin_strings(length: int) -> Iterator[list[int]]:
                 break
             string[i] = 0
 
+def m_spaced(bin_string: list[int], m: int) -> bool:
+    '''
+    make sure that there are at least m 1s spaced evenly from eachother
+    :bin_string:
+    :m: number of correctly spaced 1s
+    :returns: true if it is spaced correctly
+    '''
+    distances = {i: 1 for i in range(len(bin_string))}
+    for i, a in enumerate(bin_string):
+        if a == 0:
+            continue
+        for j, b in enumerate(bin_string[i + 1:], i + 1):
+            if b == 0:
+                continue
+            distances[j - i] += 1
+    for count in distances.values():
+        if count >= m:
+            return True
+    return False
+
 def main():
     '''Driver Code'''
     _ = argv.pop(0)
@@ -25,14 +45,15 @@ def main():
         case 0:
             n = int(input('Enter n> '))
             k = int(input('Enter k> '))
-        case 2:
-            n, k = map(int, argv)
+            m = int(input('Enter m> '))
+        case 3:
+            n, k, m = map(int, argv)
         case count:
             print(f'Invalid number of arguments: {count}')
             return 1
     strings = set()
     for bin_string in bin_strings(n):
-        if bin_string.count(1) == k:
+        if bin_string.count(1) == k and m_spaced(bin_string, m):
             rev_bin_string = reversed(bin_string)
             string = ''.join(map(str, bin_string))
             rev_string = ''.join(map(str, rev_bin_string))
