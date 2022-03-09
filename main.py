@@ -54,15 +54,9 @@ def main():
         case count:
             print(f'Invalid number of arguments: {count}')
             return 1
-    strings = set()
     for bin_string in bin_strings(n):
         if bin_string.count(1) == k and not m_spaced(bin_string, m):
-            rev_bin_string = reversed(bin_string)
-            string = ''.join(map(str, bin_string))
-            rev_string = ''.join(map(str, rev_bin_string))
-            if rev_string not in strings:
-                print(string)
-                strings.add(string)
+            print(''.join(map(str, bin_string)))
 
 if __name__ == '__main__':
     raise SystemExit(main())
