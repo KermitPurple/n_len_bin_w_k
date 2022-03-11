@@ -113,22 +113,24 @@ void print_nkm_strings(int n, int k, int m){
 }
 
 int main(int argc, char** argv){
-    int min_len = 5;
-    int max_len = 40;
+    int min_len = 28;
+    int max_len = 30;
     int n, k, m;
     switch(argc){
         case 3:
-            min_len = atoi(argv[1]);
-            max_len = atoi(argv[2]);
+            n = get_int("Enter n> ");
+            k = get_int("Enter k> ");
+            m = get_int("Enter m> ");
         case 4:
             n = atoi(argv[1]);
             k = atoi(argv[2]);
             m = atoi(argv[3]);
-            print_nkm_strings(n, k, m);
             return 0;
         default:
             break;
     }
+    print_nkm_strings(n, k, m);
+    /*
     int max_procs = 32;
     int proc_num = fork_n(max_procs - 1); // fork max_procs -1 times
     int count = 0;
@@ -149,5 +151,6 @@ int main(int argc, char** argv){
             }
         }
     }
+    */
     return 0;
 }
