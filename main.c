@@ -113,9 +113,7 @@ void print_nkm_strings(int n, int k, int m){
 }
 
 int main(int argc, char** argv){
-    // MILES THIS IS WHERE YOU END
     int min_len = 5;
-    // MILES THIS IS WHERE YOU START
     int max_len = 40;
     int n, k, m;
     switch(argc){
