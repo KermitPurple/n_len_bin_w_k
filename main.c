@@ -2,7 +2,24 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<unistd.h>
 #include<stdbool.h>
+
+// fork n times and each thread should get a different
+// consecutive number as it's return value
+// the parent thread returns 0
+unsigned fork_n(unsigned n){
+    pid_t id = 0;
+    unsigned count = 0;
+    while(id == 0 && count < n){
+        id = fork();
+        count++;
+    }
+    if(id == 0){
+        return 0;
+    }
+    return count;
+}
 
 void print_bin_string(bool* bin_string, int n){
     for(int i = 0; i < n; i++){
@@ -32,9 +49,10 @@ int get_int(char* prompt){
             fputs("Could not read line\n", stderr);
             exit(1);
         }
-        line[strlen(line) - 1] = '\0'; // remove newline
-        if(*line == '\0' || is_numeric(line)){
-            return atoi(line);
+        int result;
+        line[strlen(line) - 1] = '\0';
+        if(sscanf(line, "%d", &result) >= 1){
+            return result;
         }
         printf("\"%s\" is not a number\n", line);
     }
@@ -95,22 +113,43 @@ void print_nkm_strings(int n, int k, int m){
 }
 
 int main(int argc, char** argv){
+    // MILES THIS IS WHERE YOU END
+    int min_len = 5;
+    // MILES THIS IS WHERE YOU START
+    int max_len = 40;
     int n, k, m;
     switch(argc){
-        case 1:
-            n = get_int("Enter n> ");
-            k = get_int("Enter k> ");
-            m = get_int("Enter m> ");
-            break;
+        case 3:
+            min_len = atoi(argv[1]);
+            max_len = atoi(argv[2]);
         case 4:
             n = atoi(argv[1]);
             k = atoi(argv[2]);
             m = atoi(argv[3]);
-            break;
+            print_nkm_strings(n, k, m);
+            return 0;
         default:
-            fputs("Invalid number of inputs\n", stderr);
-            return 1;
+            break;
     }
-    print_nkm_strings(n, k, m);
+    int max_procs = 32;
+    int proc_num = fork_n(max_procs - 1); // fork max_procs -1 times
+    int count = 0;
+    for(int n = min_len; n <= max_len; n++){
+        for(int k = min_len; k <= n; k++){
+            for(int m = min_len; m <= k; m++){
+                if(count++ % max_procs == proc_num){
+                    char filename[40] = {0};
+                    sprintf(filename, "saved/%02d_%02d_%02d.txt", n, k, m);
+                    fclose(stdout);
+                    if(freopen(filename, "w", stdout) == NULL){
+                        fprintf(stderr, "Couldn't open \"%s\"", filename);
+                        return 1;
+                    }
+                    print_nkm_strings(n, k, m);
+                    fprintf(stderr,"%s finished\n", filename);
+                }
+            }
+        }
+    }
     return 0;
 }
