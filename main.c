@@ -117,40 +117,21 @@ int main(int argc, char** argv){
     int max_len = 30;
     int n, k, m;
     switch(argc){
+        case 1:
+        case 2:
         case 3:
             n = get_int("Enter n> ");
             k = get_int("Enter k> ");
             m = get_int("Enter m> ");
+            break;
         case 4:
             n = atoi(argv[1]);
             k = atoi(argv[2]);
             m = atoi(argv[3]);
-            return 0;
+            break;
         default:
             break;
     }
     print_nkm_strings(n, k, m);
-    /*
-    int max_procs = 32;
-    int proc_num = fork_n(max_procs - 1); // fork max_procs -1 times
-    int count = 0;
-    for(int n = min_len; n <= max_len; n++){
-        for(int k = min_len; k <= n; k++){
-            for(int m = min_len; m <= k; m++){
-                if(count++ % max_procs == proc_num){
-                    char filename[40] = {0};
-                    sprintf(filename, "saved/%02d_%02d_%02d.txt", n, k, m);
-                    fclose(stdout);
-                    if(freopen(filename, "w", stdout) == NULL){
-                        fprintf(stderr, "Couldn't open \"%s\"", filename);
-                        return 1;
-                    }
-                    print_nkm_strings(n, k, m);
-                    fprintf(stderr,"%s finished\n", filename);
-                }
-            }
-        }
-    }
-    */
     return 0;
 }
